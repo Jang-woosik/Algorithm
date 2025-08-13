@@ -1,21 +1,24 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 
 /*
- * 
- * 우선 0대신 넣을 수가 세로줄이나 가로줄에 있는지
- * boolean으로 검사해서 true면 넣도록
+ *백준 2580
+ * 세로가로줄에 없고
+ * 네모칸 내에도 없는 수를 넣어야한다
+ * 가로세로에 있는 수들을 배열에 넣고
  * 
  */
 
-public class Main {
-	
-	static int[][] arr=new int[9][9];
-	
-	public static void main(String[] args) throws IOException{
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
+public class Main {
+
+	static int[][]arr;
+	
+	public static void main(String[] args)throws IOException{
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		
+		arr=new int[9][9];
 		
 		for(int i=0;i<9;i++) {
 			StringTokenizer st=new StringTokenizer(br.readLine());
@@ -23,72 +26,70 @@ public class Main {
 				arr[i][j]=Integer.parseInt(st.nextToken());
 			}
 		}
-		
-		sudo(0,0);
-		
-		
-	}
-	
-	public static void sudo(int row, int col) {
-		if(col==9) {
-			sudo(row+1,0);
-			return;
-		}
-		
-		if(row==9) {
+		if(sudo(0,0)) {
 			for(int i=0;i<9;i++) {
 				for(int j=0;j<9;j++) {
 					System.out.print(arr[i][j]+" ");
 				}
 				System.out.println();
-			}
-			System.exit(0);
+			}	
 		}
-		
-		if(arr[row][col]==0) {
-			for(int i=1;i<=9;i++) {
-				if((possibility(row,col,i))) {
-					arr[row][col]=i;
-					sudo(row,col+1);
-				}
-			}
-			arr[row][col]=0;
-			return;
-		}
-		
-		sudo(row,col+1);
+
 	}
 	
-	
-	
-	public static boolean possibility(int row, int col, int value) {
+	static boolean possible(int num, int row, int col) {
 		
+		//가로줄
 		for(int i=0;i<9;i++) {
-			if(arr[i][col]==value) {
+			if(arr[row][i]==num) {
 				return false;
 			}
 		}
 		
+		//세로줄
 		for(int i=0;i<9;i++) {
-			if(arr[row][i]==value) {
+			if(arr[i][col]==num) {
 				return false;
 			}
 		}
-		
-		int set_row=(row/3)*3;
-		int set_col=(col/3)*3;
-		
-		for(int i=set_row;i<set_row+3;i++) {
-			for(int j=set_col;j<set_col+3;j++) {
-				if(arr[i][j]==value) {
+		//사각형
+		for(int i=(row/3)*3;i<(row/3)*3+3;i++) {
+			for(int j=(col/3)*3;j<(col/3)*3+3;j++) {
+				if(arr[i][j]==num) {
 					return false;
 				}
 			}
 		}
 		return true;
-		
-		
 	}
 	
+	static boolean sudo(int row, int col) {
+		//가로줄이 9줄되면 완성이니까 true
+		if(row==9) {
+			return true;
+		}
+		
+		// col이 8이면 한줄 완성이니까 다음 줄로
+		int next_row=(col==8)?row+1:row;
+		int next_col=(col+1)%9;
+		
+		//현재 0이 아니면 다음으로 넘어가기
+		if(arr[row][col]!=0) {
+			return sudo(next_row,next_col);
+		}
+		
+		//현재 0일떄의 경우를 따져봄
+		for(int num=1;num<10;num++) {
+			if(possible(num,row,col)) {
+				arr[row][col]=num;
+				if(sudo(next_row,next_col)) {
+					return true;
+				}
+				arr[row][col]=0;
+			}
+
+		}
+		return false;
+	}
 	
 }
