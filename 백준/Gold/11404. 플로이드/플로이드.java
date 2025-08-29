@@ -39,7 +39,7 @@ public class Main {
         StringBuilder sb=new StringBuilder();
         for(int i=1;i<n+1;i++) {
         	for(int j=1;j<n+1;j++) {
-                // 이 부분을 수정합니다.
+                
         		if (result[i][j] == Long.MAX_VALUE) { // 경로가 없는 경우
                     sb.append("0 ");
                 } else { // 경로가 있는 경우
@@ -50,4 +50,5 @@ public class Main {
         }
         System.out.println(sb.toString());
     }
+
 }
