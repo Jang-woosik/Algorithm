@@ -1,11 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/*
- * 중간중간 들러서 거리 최솟값을 설정해줌
- * 이전에 설정된 값보다 큰지 작은지 비교해서
- * 만약에 크다면 새로운 수로 바꿔줌
- */
+
 
 public class Solution {
 
