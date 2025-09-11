@@ -22,7 +22,7 @@ public class Main {
 	   		}
 	   		sum[s.charAt(j)-'a'][j]++;
 	   	}
-	    
+	    StringBuilder sb=new StringBuilder();
 	    for(int i=0;i<q;i++) {
 	    	StringTokenizer st=new StringTokenizer(br.readLine());
 		    
@@ -31,13 +31,13 @@ public class Main {
 		    int r=Integer.parseInt(st.nextToken());
 		    
 		    if(l==0) {
-		    	System.out.println(sum[a][r]);
+		    	sb.append(sum[a][r]).append("\n");
 		    }else {
-		    	System.out.println(sum[a][r]-sum[a][l-1]);
+		    	sb.append(sum[a][r]-sum[a][l-1]).append("\n");
 		    }
 		    
 	    }
-	    
+	    System.out.println(sb.toString());
 	}
 	
 }
